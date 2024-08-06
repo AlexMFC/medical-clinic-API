@@ -31,15 +31,29 @@ public class MedicController implements Serializable {
 
     @GetMapping
     public Page<MedicDataList> listAll(@PageableDefault(size=10, sort ={"name"}) Pageable pagination){
-        return repository.findAll(pagination).map(MedicDataList::new);
+        return repository.findAllByActiveTrue(pagination).map(MedicDataList::new);
     }
 
     @PutMapping
     @Transactional
     public void updateMedic(@RequestBody @Valid MedicUpdateRecord medic){
-        Medic medicData = repository.getReferenceById(medic.id());
+        var medicData = repository.getReferenceById(medic.id());
         medicData.updateData(medic);
         //repository.save(medicData); nao necessario por causa do transactional
         //return ResponseEntity.ok().body(medicData);
+    }
+
+    //Exclusao total
+    //@DeleteMapping(value={"/id"})
+    //@Transactional
+    //public void delete(@PathVariable Long id){
+    //    repository.deleteById(id);
+    //}
+
+    @DeleteMapping(value={"/id"})
+    @Transactional
+    public void delete(@PathVariable Long id){
+        var medicData = repository.getReferenceById(id);
+        medicData.logicDelete();
     }
 }
