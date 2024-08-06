@@ -1,18 +1,17 @@
 package med.voll.api.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import med.voll.api.address.Address;
 import med.voll.api.medic.MedicRecord;
+import med.voll.api.medic.MedicUpdateRecord;
 import med.voll.api.medic.Specialization;
 
 import java.io.Serializable;
 @Table(name="medics")
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -36,5 +35,11 @@ public class Medic implements Serializable {
         this.phone = medic.phone();
         this.specialization = medic.specialization();
         this.address = new Address(medic.address());
+    }
+
+    public void updateData(MedicUpdateRecord medic) {
+        if(medic.name() != null) this.name = medic.name();
+        if(medic.phone() != null) this.phone = medic.phone();
+        if(medic.address() != null) this.address.updateAddress(medic.address());
     }
 }

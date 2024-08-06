@@ -28,4 +28,14 @@ public class Address {
         this.city = address.city();
         this.state = address.state();
     }
+
+    public void updateAddress(Address address) {
+        if (address.logr != null)  this.logr = address.logr;
+        if (address.neighbourhood  != null)  this.neighbourhood  = address.neighbourhood ;
+        if (address.zipCode != null)  this.zipCode = address.zipCode;
+        if (address.number != null)  this.number = address.number;
+        if (address.complement != null)  this.complement = address.complement;
+        if (address.state != null)  this.state = address.state;
+        if (address.city != null)  this.city = address.city;
+    }
 }
