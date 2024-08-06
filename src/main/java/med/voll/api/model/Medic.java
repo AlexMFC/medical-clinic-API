@@ -6,13 +6,12 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import med.voll.api.address.Address;
-import med.voll.api.address.AddressData;
 import med.voll.api.medic.MedicRecord;
 import med.voll.api.medic.Specialization;
 
 import java.io.Serializable;
 @Table(name="medics")
-@Entity(name="Medic")
+@Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,10 +24,10 @@ public class Medic implements Serializable {
     private String email;
     private String phone;
     private String crm;
-    @Enumerated
+    @Enumerated(EnumType.ORDINAL)
     private Specialization specialization;
     @Embedded
-    private Address fullAddress;
+    private Address address;
 
     public Medic(MedicRecord medic) {
         this.name = medic.name();
@@ -36,6 +35,6 @@ public class Medic implements Serializable {
         this.crm = medic.crm();
         this.phone = medic.phone();
         this.specialization = medic.specialization();
-        this.fullAddress = new Address(medic.address());
+        this.address = new Address(medic.address());
     }
 }

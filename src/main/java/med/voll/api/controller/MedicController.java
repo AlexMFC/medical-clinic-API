@@ -2,11 +2,14 @@ package med.voll.api.controller;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import med.voll.api.medic.MedicDataList;
 import med.voll.api.medic.MedicRecord;
 import med.voll.api.model.Medic;
 import med.voll.api.repository.MedicRepository;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,5 +24,10 @@ public class MedicController implements Serializable {
     @Transactional
     public ResponseEntity<Medic> insert(@RequestBody @Valid MedicRecord medic){
         return ResponseEntity.ok().body(repository.save(new Medic(medic)));
+    }
+
+    @GetMapping
+    public Page<MedicDataList> listAll(@PageableDefault(size=10, sort ={"name"}) Pageable pagination){
+        return repository.findAll(pagination).map(MedicDataList::new);
     }
 }
